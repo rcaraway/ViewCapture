@@ -4,7 +4,7 @@
 //
 //  Created by Rob Caraway on 8/16/20.
 //
-
+#if !os(macOS)
 import UIKit
 
 public extension UIApplication {
@@ -44,3 +44,4 @@ public extension UIApplication {
         return base
     }
 }
+#endif

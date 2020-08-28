@@ -4,7 +4,7 @@
 //
 //  Created by Rob Caraway on 8/16/20.
 //
-
+#if !os(macOS)
 import UIKit
 
 public extension UIViewController {
@@ -46,10 +46,9 @@ public extension UIViewController {
     
     func getViewStores() -> [ViewStore] {
         var views = [ViewStore]()
-        let screenSize = UIScreen.readableScreenSize()
         let uiViews = takeSnapshotOfViews()
         uiViews.forEach { key, value in
-            let viewStore = ViewStore(name: key, frames: [screenSize: value.frame], backgroundColor: view.backgroundColor ?? .clear)
+            let viewStore = ViewStore(name: key, frame: value.frame, backgroundColor: view.backgroundColor?.hexString() ?? UIColor.clear.hexString())
             views.append(viewStore)
         }
         return views
@@ -59,8 +58,8 @@ public extension UIViewController {
         let views = takeSnapshotOfViews()
         for store in stores {
             if let view = views[store.name] {
-                view.backgroundColor = store.backgroundColor
-                view.frame = store.getFrame() ?? view.frame
+                view.backgroundColor = UIColor(hex: store.backgroundColor) ?? view.backgroundColor
+                view.frame = store.frame ?? view.frame
             }
         }
     }
@@ -101,3 +100,4 @@ public extension UIViewController {
         }
     }
 }
+#endif
